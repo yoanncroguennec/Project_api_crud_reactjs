@@ -42,6 +42,66 @@ const authCtrl = {
       res.status(400).json({ message: err.message });
     }
   },
+
+  updateUserViaBodyId: async (req, res, next) => {
+    try {
+      const userUpdate = await UserModel.findByIdAndUpdate(
+        req.body.id,
+        {
+          name: req.body.name,
+          age: req.body.age,
+          email: req.body.email,
+        },
+        { new: true }
+      );
+
+      console.log(userUpdate);
+      res.json({ message: "user success updated" });
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  },
+
+  updateUserViaParamsId: async (req, res, next) => {
+    try {
+      const userUpdate = await UserModel.findByIdAndUpdate(
+        req.params.id,
+        {
+          name: req.body.name,
+          age: req.body.age,
+          email: req.body.email,
+        },
+        { new: true }
+      );
+
+      console.log(userUpdate);
+      res.json({ message: "user success updated" });
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  },
+
+  ///////////////////////
+  //// GET ALL USERS ////
+  ///////////////////////
+  getAllUsers: async (req, res, next) => {
+    try {
+      // Second Step
+      const users = await UserModel.find();
+
+      // Compte les Docs correspondant au filtre
+      const count = await UserModel.countDocuments();
+
+      const response = {
+        count: count,
+        users: users,
+      };
+
+      res.json(response);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  },
 };
 
 module.exports = authCtrl;
