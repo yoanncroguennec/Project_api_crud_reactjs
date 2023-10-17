@@ -3,8 +3,15 @@ require("dotenv").config();
 
 //  MONGODB
 const mongoose = require("mongoose");
-mongoose.set("strictQuery", false);
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect(
+  process.env.MONGODB_URI,
+  { useNewUrlParser: true, useUnifiedTopology: true },
+  () => {
+    console.log("Connected to MongoDB");
+  }
+);
+// mongoose.set("strictQuery", false);
+// mongoose.connect(process.env.MONGODB_URI);
 
 // RUN SERVER
 const PORT = process.env.PORT;
